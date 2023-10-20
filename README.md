@@ -1,2 +1,2 @@
 # esagonario
-A word game based on the NYT's Spelling Bee
+> A simple word game based on the NYT's Spelling Bee
