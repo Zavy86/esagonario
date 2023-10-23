@@ -1,5 +1,7 @@
-import {Controller, Get} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {AppService} from './app.service';
+import {GameResponse, RecordResponse} from "src/responses";
+import {StoreRecordRequest} from "src/requests";
 
 @Controller()
 export class AppController {
@@ -9,8 +11,28 @@ export class AppController {
   ){}
 
   @Get()
-  getHello():string {
-    return this.appService.getHello();
+  getWelcome():string {
+    return "Welcome! insert links to api calls";
+  }
+
+  @Get('latest')
+  getLatest():GameResponse {
+    return this.appService.getGame();
+  }
+
+  @Get(':date')
+  getGame(
+    @Param('date') date:string,
+  ):GameResponse {
+    return this.appService.getGame(date,true);
+  }
+
+  @Post(':date')
+  storeResult(
+    @Param('date') date:string,
+    @Body() store:StoreRecordRequest,
+  ):RecordResponse {
+    return this.appService.storeRecord(date,store);
   }
 
 }
