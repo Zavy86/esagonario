@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {AppService} from './app.service';
-import {GameResponse, RecordResponse} from "src/responses";
+import {GameResponse, RecordResponse} from "@shared/responses";
 import {StoreRecordRequest} from "src/requests";
 
 @Controller()

@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as letters from "src/assets/letters.json";
 import * as words from "src/assets/words.json";
 import {Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
-import {GameModel, RecordModel} from "src/models/";
-import {RecordResponse, GameResponse} from "src/responses";
+import {GameModel, RecordModel} from "@shared/models/";
+import {RecordResponse, GameResponse} from "@shared/responses";
 import {StoreRecordRequest} from "src/requests";
 
 @Injectable()

@@ -1,1 +1,1 @@
-export * from 'src/requests/storeRecordRequest'
+export * from './storeRecordRequest'

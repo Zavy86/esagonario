@@ -1,4 +1,4 @@
-import {GameModel, RecordModel} from "src/models";
+import {RecordModel} from "../models";
 
 export class RecordResponse {
 
