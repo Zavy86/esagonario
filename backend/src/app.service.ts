@@ -4,7 +4,7 @@ import * as words from "src/assets/words.json";
 import {Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import {GameModel, RecordModel} from "@shared/models/";
 import {RecordResponse, GameResponse} from "@shared/responses";
-import {StoreRecordRequest} from "src/requests";
+import {StoreRecordRequest} from "@shared/requests";
 
 @Injectable()
 export class AppService {

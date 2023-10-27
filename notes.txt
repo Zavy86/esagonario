@@ -1,19 +1,19 @@
-to use shared files in nest:
+https://stackoverflow.com/questions/54941329/share-interfaces-between-api-and-frontend
+
+to use shared directory in nest:
 
  - update tsconfig.json adding the following lines
    "compilerOptions": {
       ...
         "paths": {
-        "@shared/*": [ "../objects/*" ],
+        "@shared/*": [ "src/shared/*" ],
       }
    }
 
- - update nest-cli.json adding the following lines
+ - (if outside of src) update also nest-cli.json adding the following lines
    {
      ...
      "entryFile": "backend/src/main",
      ...
    }
-
- - update package.jon start:prod script to
-   "start:prod": "node dist/backend/src/main",
+   and package.jon start:prod script to "start:prod": "node dist/backend/src/main",

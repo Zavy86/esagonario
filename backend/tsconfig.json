@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
     "paths": {
-      "@shared/*": [ "../shared/*" ],
+      "@shared/*": [ "src/shared/*" ],
     }
   }
 }
