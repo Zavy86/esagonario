@@ -1,9 +1,9 @@
 export class GameModel {
 
-	public date:string;
+	public date:string = 'latest';
 
-	public letters:string[];
+	public letters:string[] = [];
 
-	public words:string[];
+	public words:string[] = [];
 
 }

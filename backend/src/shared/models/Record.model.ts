@@ -1,9 +1,9 @@
 export class RecordModel {
 
-	nickname:string;
+	nickname:string = '';
 
-	words:string[];
+	words:string[] = [];
 
-	points:number;
+	points:number = 0;
 
 }

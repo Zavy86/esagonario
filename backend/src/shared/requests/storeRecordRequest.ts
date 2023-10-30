@@ -4,11 +4,11 @@ export class StoreRecordRequest {
 
 	@IsString()
 	@IsNotEmpty()
-	nickname:string;
+	nickname:string = '';
 
 	@IsArray()
 	@ArrayMinSize(1)
 	@IsString({each: true})
-	words:string[];
+	words:string[] = [];
 
 }
