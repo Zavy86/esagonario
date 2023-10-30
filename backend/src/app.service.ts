@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as letters from "src/assets/letters.json";
 import * as words from "src/assets/words.json";
-import {Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
+import {Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
 import {GameModel, RecordModel} from "@shared/models/";
 import {RecordResponse, GameResponse} from "@shared/responses";
 import {StoreRecordRequest} from "@shared/requests";
@@ -9,6 +9,7 @@ import {StoreRecordRequest} from "@shared/requests";
 @Injectable()
 export class AppService {
 
+  private readonly logger:Logger = new Logger(AppService.name);
   private readonly availableLetters:string[] = letters;
   private readonly availableWords:string[] = words;
 
@@ -38,7 +39,6 @@ export class AppService {
     try{
       const encoded:string = fs.readFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json',{ encoding: 'utf8', flag: 'r' });
       const decoded:GameModel = JSON.parse(encoded);
-      console.log('game loaded!');
       //console.log(decoded);
       const gameModel:GameModel = new GameModel();
       gameModel.date = decoded.date;
@@ -46,7 +46,7 @@ export class AppService {
       gameModel.words = decoded.words;
       return gameModel;
     }catch(err){
-      console.log(err);
+      this.logger.error(err);
       throw new InternalServerErrorException('error reading game file');
     }
   }
@@ -56,7 +56,6 @@ export class AppService {
     try{
       const encoded:string = fs.readFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',{ encoding: 'utf8', flag: 'r' });
       const decoded:RecordModel[] = JSON.parse(encoded);
-      console.log('records loaded!');
       //console.log(decoded);
       const records:RecordModel[] = [];
       decoded.forEach((record:RecordModel):void => {
@@ -68,7 +67,7 @@ export class AppService {
       });
       return records;
     }catch(err){
-      console.log(err);
+      this.logger.error(err);
       throw new InternalServerErrorException('error reading record file');
     }
   }
@@ -86,10 +85,9 @@ export class AppService {
     gameModel.words = compatibleWords;
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json',JSON.stringify(gameModel,null,2));
-      console.log('game saved!');
       return gameModel;
     }catch(err){
-      console.log(err);
+      this.logger.error(err);
       throw new InternalServerErrorException('error writing game file');
     }
   }
@@ -119,16 +117,10 @@ export class AppService {
     return true;
   }
 
-
-
-
-
   public storeRecord(date:string, store:StoreRecordRequest):RecordResponse {
     if(!this.gameExists(date)){throw new NotFoundException('no game found for '+date);}
-
     const gameModel:GameModel = this.loadGame(date);
     const records:RecordModel[] = this.loadRecords(date);
-
     let recordModel:RecordModel|undefined = records.find((record:RecordModel) => record.nickname === store.nickname);
     let newRecord:boolean = false;
     if(!recordModel) {
@@ -136,29 +128,20 @@ export class AppService {
       recordModel = new RecordModel()
       recordModel.nickname = store.nickname;
     }
-
-    console.log(store)
-
+    //console.log(store)
     recordModel.words = this.checkDiscoveredWords(store.words,gameModel.words);
     recordModel.points = this.calculatePoints(recordModel.words);
-
     if(newRecord){records.push(recordModel);}
-
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',JSON.stringify(records,null,2));
       console.log('records saved!');
-
       //return recordModel;
-
       return new RecordResponse(recordModel);
-
     }catch(err){
-      console.log(err);
+      this.logger.error(err);
       throw new InternalServerErrorException('error writing records file');
     }
   }
-
-
 
   private checkDiscoveredWords(discoveredWords:string[],compatibleWords:string[]):string[] {
     const correctWords:string[] = [];
