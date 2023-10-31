@@ -29,6 +29,8 @@ export class GameComponent implements OnInit, OnDestroy {
   Game:GameModel|undefined;
   Records:RecordModel[] = [];
 
+  currentWord:string = '';
+
 
   ngOnInit():void {
     this.logsService.log('game component init');
@@ -63,4 +65,20 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
+  letterSelected($event:string):void {
+    this.currentWord += $event;
+    console.log($event);
+  }
+
+  deleteLetter():void {
+    if(this.currentWord.length) {
+      this.currentWord = this.currentWord.slice(0, -1)
+    }
+  }
+
+  submitWord():void {
+
+    this.currentWord = '';
+
+  }
 }
