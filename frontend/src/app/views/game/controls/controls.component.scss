@@ -1,0 +1,39 @@
+
+svg {
+  width: 400px;
+  flex: 1;
+  //border: 1px solid black;
+}
+
+use {
+  transition: 0.2s;
+  cursor: pointer;
+  fill: #e9e9e9;
+}
+
+text {
+  fill: black;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 9px;
+}
+
+.central use{
+  fill: #F1C40F;
+}
+
+.central:hover use {
+  fill: #F4D03F;
+}
+
+.central:active use {
+  fill: #F7DC6F;
+}
+
+.around:hover use {
+  fill: #a9a9a9;
+}
+
+.around:active use {
+  fill: #090909;
+}
