@@ -6,7 +6,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {NotFoundComponent} from './views/not-found/not-found.component';
 import {GameComponent} from './views/game/game.component';
 import {InputComponent} from './views/game/input/input.component';
-import {ControlsComponent} from 'src/app/views/game/controls/controls.component';
+import {ControlsComponent} from './views/game/controls/controls.component';
+import {ProgressComponent} from './views/game/progress/progress.component';
+import {WordsComponent} from './views/game/words/words.component';
 
 @NgModule({
   declarations: [
@@ -14,8 +16,10 @@ import {ControlsComponent} from 'src/app/views/game/controls/controls.component'
     NotFoundComponent,
     GameComponent,
     InputComponent,
-    ControlsComponent
-  ],
+    ControlsComponent,
+    ProgressComponent,
+		WordsComponent
+	],
   imports: [
     BrowserModule,
     AppRoutingModule,
