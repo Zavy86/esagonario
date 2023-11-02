@@ -1,13 +1,32 @@
-<p>ready: {{ isReady }}</p>
-<p>uid: {{ uid }}</p>
-<p>game: {{ Game | json }}</p>
-<p>records: {{ Records | json }}</p>
-<app-input
-  [word]="currentWord"
-></app-input>
-<app-controls
-  [letters]="Game?.letters ?? []"
-  (letterSelected)="letterSelected($event)"
-  (deleteCommand)="deleteLetter()"
-  (enterCommand)="submitWord()"
-></app-controls>
+<div class="container">
+	<div class="columns">
+		<div class="column width-2">
+			<app-selector
+				[uid]="uid"
+			></app-selector>
+			<app-input
+				[word]="currentWord"
+				[class]="inputClass"
+			></app-input>
+			<app-controls
+				[letters]="Game?.letters ?? []"
+				(letterSelected)="letterSelected($event)"
+				(deleteCommand)="deleteLetter()"
+				(enterCommand)="submitWord()"
+			></app-controls>
+		</div><!-- /column -->
+		<div class="column width-4">
+			<app-progress
+				[value]="progress + '%'"
+			></app-progress>
+			<app-words
+				[availableWords]="Game?.words ?? []"
+				[discoveredWords]="discoveredWords"
+			></app-words>
+			<p>ready: {{ isReady }}</p>
+			<p>uid: {{ uid }}</p>
+			<p>game: {{ Game | json }}</p>
+			<p>records: {{ Records | json }}</p>
+		</div><!-- /column -->
+	</div><!-- /columns -->
+</div><!-- /container -->

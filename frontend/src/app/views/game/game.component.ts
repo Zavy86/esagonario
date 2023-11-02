@@ -1,10 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {LogsService} from "src/app/services/logs.service";
 import {BackendService} from "src/app/services/backend.service";
 import {AlertsService, AlertTypologies} from "src/app/services/alerts.service";
 import {Subscription} from "rxjs";
 import {GameModel, RecordModel} from "@shared/models";
+import {InputComponent} from "src/app/views/game/input/input.component";
 
 @Component({
   selector: 'app-game',
@@ -12,6 +13,8 @@ import {GameModel, RecordModel} from "@shared/models";
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit, OnDestroy {
+
+	@ViewChild(InputComponent) inputComponent:InputComponent | undefined;
 
   constructor(
     private router:Router,
@@ -29,8 +32,10 @@ export class GameComponent implements OnInit, OnDestroy {
   Game:GameModel|undefined;
   Records:RecordModel[] = [];
 
-  currentWord:string = '';
-
+	progress:number = 0;
+	discoveredWords:string[] = ['COLPIRE','CORRERE'];
+	currentWord:string = '';
+	inputClass:string = '';
 
   ngOnInit():void {
     this.logsService.log('game component init');
@@ -65,9 +70,9 @@ export class GameComponent implements OnInit, OnDestroy {
     });
   }
 
-  letterSelected($event:string):void {
-    this.currentWord += $event;
-    console.log($event);
+  letterSelected(letter:string):void {
+    this.currentWord += letter;
+    console.log(letter);
   }
 
   deleteLetter():void {
@@ -77,8 +82,31 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   submitWord():void {
-
-    this.currentWord = '';
-
+		if(this.discoveredWords.includes(this.currentWord)){
+			this.setTemporaryClassAndClear('warning');
+		} else if(this.checkWord(this.currentWord)){
+			console.log('aggiunto: ',this.currentWord)
+			this.setTemporaryClassAndClear('success');
+			this.discoveredWords = [...this.discoveredWords,this.currentWord];
+			this.progress = (this.discoveredWords.length / (this.Game?.words.length ?? 0) * 100)
+			if(this.progress == 100){
+				alert('Finish!');
+			}
+		}else{
+			this.setTemporaryClassAndClear('error');
+		}
   }
+
+	private checkWord(word:string):boolean{
+		return (this.Game?.words.includes(word)) ?? false;
+	}
+
+	private setTemporaryClassAndClear(inputClass:string):void{
+		this.inputClass = inputClass;
+		setTimeout(() => {
+			this.currentWord = '';
+			this.inputClass = '';
+		},900);
+	}
+
 }

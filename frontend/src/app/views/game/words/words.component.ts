@@ -26,7 +26,7 @@ export class WordsComponent implements OnInit, OnChanges {
 			if(this.discoveredWords.includes(word)){
 				this.words.push(word);
 			}else{
-				this.words.push('X'.repeat(word.length));
+				this.words.push('■'.repeat(word.length));
 			}
 		});
 	}
