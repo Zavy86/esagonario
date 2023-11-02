@@ -1,5 +1,5 @@
 <div>
 	<p [ngStyle]="{ 'font-size': size }" [class]="class">
-  {{ word }}<span class="cursor">|</span>
+  {{ word }}<span *ngIf="!class" class="cursor">|</span>
 </p>
 </div>

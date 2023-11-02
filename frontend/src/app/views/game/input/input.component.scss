@@ -18,7 +18,7 @@ p.error { color: red; }
 span.cursor {
   color: #F1C40F;
   padding-top:-4px;
-  animation: blinker 2s linear infinite;
+  animation: blinker 1.35s linear infinite;
 }
 
 @keyframes blinker {
