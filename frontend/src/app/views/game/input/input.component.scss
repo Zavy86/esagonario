@@ -1,9 +1,19 @@
 div {
-  font-size: 64px;
-  font-weight: bolder;
-  font-family: sans-serif;
-  margin-bottom: 9px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 64px;
+	margin-bottom: 27px;
 }
+
+p {
+	font-family: sans-serif;
+	font-weight: bolder;
+}
+
+p.success { color: green; }
+p.warning { color: orange; }
+p.error { color: red; }
 
 span.cursor {
   color: #F1C40F;
