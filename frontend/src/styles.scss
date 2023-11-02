@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.columns {
+	width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+}
+
+.column {
+	padding: 1em;
+	grid-column: span 6;
+}
+
+.column.width-sm-1 { grid-column: span 1; }
+.column.width-sm-2 { grid-column: span 2; }
+.column.width-sm-3 { grid-column: span 3; }
+.column.width-sm-4 { grid-column: span 4; }
+.column.width-sm-5 { grid-column: span 5; }
+.column.width-sm-6 { grid-column: span 6; }
+
+.column.width-1 { grid-column: span 6; }
+.column.width-2 { grid-column: span 6; }
+.column.width-3 { grid-column: span 6; }
+.column.width-4 { grid-column: span 6; }
+.column.width-5 { grid-column: span 6; }
+.column.width-6 { grid-column: span 6; }
+
+@media screen and (min-width: 992px) {
+	.container{width: 992px;}
+	.column.width-1 { grid-column: span 1; }
+	.column.width-2 { grid-column: span 2; }
+	.column.width-3 { grid-column: span 3; }
+	.column.width-4 { grid-column: span 4; }
+	.column.width-5 { grid-column: span 5; }
+	.column.width-6 { grid-column: span 6; }
+}
+
