@@ -1,0 +1,12 @@
+<div class="columns">
+	<div class="column width-sm-1 previous" (click)="changeGame(previous)">
+		<a *ngIf="previous">&lArr;</a>
+	</div><!-- /column -->
+	<div class="column width-sm-4 current">
+		<span>{{ current }}</span>
+	</div><!-- /column -->
+	<div class="column width-sm-1 next">
+		<a *ngIf="next" (click)="changeGame(next)">&rArr;</a>
+	</div><!-- /column -->
+</div><!-- /columns -->
+
