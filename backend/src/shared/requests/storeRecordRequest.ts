@@ -4,6 +4,10 @@ export class StoreRecordRequest {
 
 	@IsString()
 	@IsNotEmpty()
+	uuid:string = '';
+
+	@IsString()
+	@IsNotEmpty()
 	nickname:string = '';
 
 	@IsArray()

@@ -121,11 +121,12 @@ export class AppService {
     if(!this.gameExists(date)){throw new NotFoundException('no game found for '+date);}
     const gameModel:GameModel = this.loadGame(date);
     const records:RecordModel[] = this.loadRecords(date);
-    let recordModel:RecordModel|undefined = records.find((record:RecordModel) => record.nickname === store.nickname);
+    let recordModel:RecordModel|undefined = records.find((record:RecordModel):boolean => record.uuid === store.uuid);
     let newRecord:boolean = false;
     if(!recordModel) {
       newRecord = true;
       recordModel = new RecordModel()
+      recordModel.uuid = store.uuid;
       recordModel.nickname = store.nickname;
     }
     //console.log(store)
