@@ -1,6 +1,7 @@
-<div (click)="changeNickname()" title="Click to change!">
-	<span *ngIf="rank==1">🥇</span>
-	<span *ngIf="rank==2">🥈</span>
-	<span *ngIf="rank==3">🥉</span>
-	{{ nickname }}
+<div>
+	<span *ngIf="rank == 1">🥇</span>
+	<span *ngIf="rank == 2">🥈</span>
+	<span *ngIf="rank == 3">🥉</span>
+	<code *ngIf="rank > 3">[{{ rank }}]</code>
+	<span (click)="changeNickname()" title="Click to change!">&nbsp;{{ nickname }}</span>
 </div>
