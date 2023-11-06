@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionService} from "src/app/services/session.service";
 
 @Component({
@@ -9,6 +9,8 @@ import {SessionService} from "src/app/services/session.service";
 export class NicknameComponent {
 
 	@Output() nicknameChanged:EventEmitter<string> = new EventEmitter();
+
+	@Input() rank:number = 0;
 
 	nickname:string;
 
