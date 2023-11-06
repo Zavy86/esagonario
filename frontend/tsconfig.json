@@ -21,7 +21,7 @@
 		"resolveJsonModule": true,
     "useDefineForClassFields": false,
     "paths": {
-      "@shared/*": [ "../backend/src/shared/*" ],
+      "@shared/*": ["../backend/src/shared/*"]
     },
     "lib": [
       "ES2022",
