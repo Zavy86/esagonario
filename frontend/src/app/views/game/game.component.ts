@@ -130,7 +130,7 @@ export class GameComponent implements OnInit, OnDestroy {
 			this.discoveredWords = [...this.discoveredWords,this.currentWord];
 			this.calculateProgress();
 			if(this.progress == 100){
-				alert('Finish!');
+				alert('Game Completed!');
 			}
 			this.storeRecord();
 		}else{
