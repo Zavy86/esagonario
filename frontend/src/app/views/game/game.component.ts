@@ -82,7 +82,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
 	private loadMyRecord():void {
-		let record:RecordModel|undefined = this.Records.find((record:RecordModel) => record.uuid = this.sessionService.uuid);
+		let record:RecordModel|undefined = this.Records.find((record:RecordModel) => record.uuid == this.sessionService.uuid);
 		if(record){
 			this.points = record.points;
 			this.discoveredWords = [...record.words];
@@ -147,7 +147,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	}
 
 	private calculateRank():void {
-		this.rank = (this.Records.findIndex((record:RecordModel) => record.uuid = this.sessionService.uuid) + 1);
+		this.rank = (this.Records.findIndex((record:RecordModel):boolean => record.uuid == this.sessionService.uuid) + 1);
 	}
 
 	private setTemporaryClassAndClear(inputClass:string):void{
