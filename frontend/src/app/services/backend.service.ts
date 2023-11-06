@@ -48,7 +48,7 @@ export class BackendService {
       ENV.backend+'/'+game,
       storeRecordRequest
     ).pipe(
-      map((response) => new RecordResponse(response.Record)),
+      map((response) => new RecordResponse(response.Records)),
       tap((response) => this.logsService.log('HTTP POST /'+game+' response',response))
     );
   }
