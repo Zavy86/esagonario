@@ -17,19 +17,27 @@
 		</div><!-- /column -->
 		<div class="column width-4">
 			<div class="flex">
-				<app-username></app-username>
+				<app-nickname
+					[rank]="rank"
+					(nicknameChanged)="storeRecord()"
+				></app-nickname>
 				<app-progress
 					[value]="progress + '%'"
 				></app-progress>
+				<app-points
+					[value]="points"
+				></app-points>
 			</div>
 			<app-words
 				[availableWords]="Game?.words ?? []"
 				[discoveredWords]="discoveredWords"
 			></app-words>
-			<p>ready: {{ isReady }}</p>
-			<p>uid: {{ uid }}</p>
-			<p>game: {{ Game | json }}</p>
-			<p>records: {{ Records | json }}</p>
+			<code *ngIf="debug">
+				<p>ready: {{ isReady }}</p>
+				<p>uid: {{ uid }}</p>
+				<p>game: {{ Game | json }}</p>
+				<p>records: {{ Records | json }}</p>
+			</code>
 		</div><!-- /column -->
 	</div><!-- /columns -->
 </div><!-- /container -->
