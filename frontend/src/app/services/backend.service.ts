@@ -13,6 +13,8 @@ import {StoreRecordRequest} from "@shared/requests";
 
 export class BackendService {
 
+	private uuid:string;
+
   private options = {
     'headers': {
       'Content-Type': 'application/json',
@@ -25,7 +27,11 @@ export class BackendService {
     protected httpClient:HttpClient,
     protected logsService:LogsService,
     protected alertsService:AlertsService
-  ){}
+  ){
+		this.uuid = localStorage.getItem('uuid') ?? (Math.random().toString(36).substring(2,11) + Math.random().toString(36).substring(2,11));
+		localStorage.setItem('uuid',this.uuid);
+		console.log('uuid',this.uuid);
+	}
 
 
   public getGame(game:string):Observable<GameResponse>{
@@ -36,21 +42,12 @@ export class BackendService {
       tap((response) => this.logsService.log('HTTP GET /'+game+' response',response))
     );
   }
-/*
-  public authenticationAuthenticate(game:string,storeRecordRequest:StoreRecordRequest):Observable<Authentication>{
-    return this.POST(
-      ENV.backend+'/'+game,
-      storeRecordRequest
-    ).pipe(
-      map((response) => new RecordResponse(response).data),
-      tap((response) => this.logsService.log('HTTP POST /'+game+' response',response))
-    );
-  }
-*/
 
 
 
-  private GET(uri:string):Observable<any>{
+
+
+  private GET(uri:string):Observable<any> {
     //this.logService.log('try to make http get...');
     return this.httpClient.get<any>(uri,this.options).pipe(
       catchError(error => this.processError(error)),
@@ -58,7 +55,7 @@ export class BackendService {
     );
   }
 
-  private POST(uri:string,request:any|null=null):Observable<any>{
+  private POST(uri:string,request:any|null=null):Observable<any> {
     //this.logService.log('try to make http post...');
     return this.httpClient.post<any>(uri,request,this.options).pipe(
       catchError(error => this.processError(error)),
@@ -82,7 +79,7 @@ export class BackendService {
     );
   }
 
-  private DELETE(uri:string):Observable<any>{
+  private DELETE(uri:string):Observable<any> {
     //this.logService.log('try to make http delete...');
     return this.httpClient.delete<any>(uri,this.options).pipe(
       catchError(error => this.processError(error)),
@@ -90,14 +87,14 @@ export class BackendService {
     );
   }
 
-  private processError(err:any){
+  private processError(err:any):any {
     this.logsService.error('error executing http request',err)
     if(ENV.debug){this.alertsService.add(err.message, AlertTypologies.Danger, 'Error: ' + err.name);}
     this.processResponse(err.error);
     return throwError(err);
   }
 
-  private processResponse(res:any,responseObject:string=''):any{
+  private processResponse(res:any,responseObject:string=''):any {
     this.logsService.log('http raw response:',res);
     try{
       let response = res;
