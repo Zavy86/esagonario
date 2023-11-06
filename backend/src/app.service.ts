@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as letters from "src/assets/letters.json";
 import * as words from "src/assets/words.json";
-import {Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
 import {GameModel, RecordModel} from "@shared/models/";
 import {RecordResponse, GameResponse} from "@shared/responses";
 import {StoreRecordRequest} from "@shared/requests";
@@ -15,8 +15,12 @@ export class AppService {
 
   getGame(date:string|undefined = undefined,records:boolean = false):GameResponse{
 
+    const today = new Date(new Date().setUTCHours(0,0,0,0)).toISOString().split('T')[0];
+
     // @todo check date format yyyy-mm-dd
-    if(!date){date = new Date(new Date().setUTCHours(0,0,0,0)).toISOString().split('T')[0];}
+
+    if(!date){date = today;}
+    if(date > today){throw new BadRequestException('This game is not ready yet');}
 
     const Game:GameModel = (this.gameExists(date) ? this.loadGame(date) : this.newGame(date));
     const Records:RecordModel[] = (records ? this.loadRecords(date) : []);
