@@ -17,10 +17,10 @@
 		</div><!-- /column -->
 		<div class="column width-4">
 			<div class="flex">
+				<app-username></app-username>
 				<app-progress
 					[value]="progress + '%'"
 				></app-progress>
-				<app-username></app-username>
 			</div>
 			<app-words
 				[availableWords]="Game?.words ?? []"
