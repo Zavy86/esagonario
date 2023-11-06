@@ -130,10 +130,11 @@ export class AppService {
     }
     //console.log(store)
     recordModel.nickname = store.nickname;
+    recordModel.timestamp = new Date().getTime();
     recordModel.words = this.checkDiscoveredWords(store.words,gameModel.words);
     recordModel.points = this.calculatePoints(recordModel.words);
     if(newRecord){records.push(recordModel);}
-    records.sort((a:RecordModel,b:RecordModel):number => (a.points > b.points) ? -1 : ((b.points > a.points) ? 1 : 0));
+    records.sort(this.sortByPointAndTimestamp);
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',JSON.stringify(records,null,2));
       console.log('records saved!');
@@ -142,6 +143,14 @@ export class AppService {
       this.logger.error(err);
       throw new InternalServerErrorException('error writing records file');
     }
+  }
+
+  private sortByPointAndTimestamp(a:RecordModel,b:RecordModel):number{
+    if(a.points > b.points){return -1;}
+    else if(b.points > a.points){return 1;}
+    else if(a.timestamp > b.timestamp){return -1;}
+    else if(b.timestamp > a.timestamp){return -1;}
+    else{return 0;}
   }
 
   private checkDiscoveredWords(discoveredWords:string[],compatibleWords:string[]):string[] {
