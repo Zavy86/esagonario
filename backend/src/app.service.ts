@@ -127,17 +127,17 @@ export class AppService {
       newRecord = true;
       recordModel = new RecordModel()
       recordModel.uuid = store.uuid;
-      recordModel.nickname = store.nickname;
     }
     //console.log(store)
+    recordModel.nickname = store.nickname;
     recordModel.words = this.checkDiscoveredWords(store.words,gameModel.words);
     recordModel.points = this.calculatePoints(recordModel.words);
     if(newRecord){records.push(recordModel);}
+    records.sort((a:RecordModel,b:RecordModel):number => (a.points > b.points) ? -1 : ((b.points > a.points) ? 1 : 0));
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',JSON.stringify(records,null,2));
       console.log('records saved!');
-      //return recordModel;
-      return new RecordResponse(recordModel);
+      return new RecordResponse(records);
     }catch(err){
       this.logger.error(err);
       throw new InternalServerErrorException('error writing records file');
