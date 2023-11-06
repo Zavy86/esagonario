@@ -16,9 +16,12 @@
 			></app-controls>
 		</div><!-- /column -->
 		<div class="column width-4">
-			<app-progress
-				[value]="progress + '%'"
-			></app-progress>
+			<div class="flex">
+				<app-progress
+					[value]="progress + '%'"
+				></app-progress>
+				<app-username></app-username>
+			</div>
 			<app-words
 				[availableWords]="Game?.words ?? []"
 				[discoveredWords]="discoveredWords"

@@ -33,7 +33,7 @@ export class GameComponent implements OnInit, OnDestroy {
   Records:RecordModel[] = [];
 
 	progress:number = 0;
-	discoveredWords:string[] = ['COLPIRE','CORRERE'];
+	discoveredWords:string[] = [];
 	currentWord:string = '';
 	inputClass:string = '';
 

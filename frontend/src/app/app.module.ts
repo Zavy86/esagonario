@@ -9,6 +9,7 @@ import {InputComponent} from './views/game/input/input.component';
 import {ControlsComponent} from './views/game/controls/controls.component';
 import {ProgressComponent} from './views/game/progress/progress.component';
 import {SelectorComponent} from './views/game/selector/selector.component';
+import {UsernameComponent} from './views/game/username/username.component';
 import {WordsComponent} from './views/game/words/words.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import {WordsComponent} from './views/game/words/words.component';
     ControlsComponent,
     ProgressComponent,
 		SelectorComponent,
+		UsernameComponent,
 		WordsComponent
 	],
   imports: [
