@@ -11,10 +11,9 @@ export class RankingComponent implements OnChanges {
 	@Input() allRecords:RecordModel[] = [];
 
 	showAll:boolean = false;
-	ranking:{rank:number,nickname:string}[] = [];
+	ranking:{rank:number,points:number,nickname:string}[] = [];
 
 	ngOnChanges(changes:SimpleChanges):void {
-		console.log(changes);
 		if('allRecords' in changes){ this.refreshRanking(); }
 	}
 
@@ -25,8 +24,14 @@ export class RankingComponent implements OnChanges {
 
 	private refreshRanking():void {
 		this.ranking = [];
-		for(let index:number = 0;index < (this.showAll ? this.allRecords.length : 3); index++){
-			this.ranking.push({rank:(index+1),nickname:this.allRecords[index].nickname});
+		for(let index:number = 0; index < ( this.showAll ? this.allRecords.length : 3 ); index++){
+			if(index in this.allRecords) {
+				this.ranking.push({
+					rank: (index + 1),
+					points: this.allRecords[index].points,
+					nickname: this.allRecords[index].nickname
+				});
+			}
 		}
 	}
 }

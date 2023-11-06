@@ -13,7 +13,6 @@ export class InputComponent implements OnChanges {
 	size:string = '64px';
 
 	ngOnChanges( changes: SimpleChanges ):void {
-		//console.log(changes);
 		if('word' in changes){
 			const start:number = 64;
 			let size:number = start;

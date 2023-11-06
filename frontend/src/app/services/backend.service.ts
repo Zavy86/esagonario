@@ -30,7 +30,7 @@ export class BackendService {
   ){
 		this.uuid = localStorage.getItem('uuid') ?? (Math.random().toString(36).substring(2,11) + Math.random().toString(36).substring(2,11));
 		localStorage.setItem('uuid',this.uuid);
-		console.log('uuid',this.uuid);
+		logsService.log('uuid',this.uuid);
 	}
 
 

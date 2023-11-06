@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, Output} from '@angular/core';
+import {LogsService} from "src/app/services/logs.service";
 
 @Component({
   selector: 'app-controls',
@@ -7,24 +8,37 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class ControlsComponent {
 
-  @Output() letterSelected:EventEmitter<string> = new EventEmitter();
-  @Output() deleteCommand:EventEmitter<null> = new EventEmitter();
-  @Output() enterCommand:EventEmitter<null> = new EventEmitter();
+	@Output() enterCommand:EventEmitter<null> = new EventEmitter();
+	@Output() deleteCommand:EventEmitter<null> = new EventEmitter();
+	@Output() letterSelected:EventEmitter<string> = new EventEmitter();
 
   @Input() letters:string[] = [];
 
+	@HostListener('document:keydown', ['$event'])
+	handleKeyboardEvent(event: KeyboardEvent):void {
+		if(event.key == 'Enter'){this.enterCommand.emit();}
+		if(event.key == 'Backspace'){this.deleteCommand.emit();}
+		if(this.letters.includes(event.key.toUpperCase())){
+			this.letterSelected.emit(event.key.toUpperCase());
+		}
+	}
+
+	constructor(
+		private logsService:LogsService
+	){}
+
   clicked(index:number):void {
-    console.log(index,this.letters[index]);
+		this.logsService.log(index,this.letters[index]);
     this.letterSelected.emit(this.letters[index]);
   }
 
   delete():void {
-    console.log('delete');
+		this.logsService.log('delete');
     this.deleteCommand.emit();
   }
 
   enter():void {
-    console.log('enter');
+		this.logsService.log('enter');
     this.enterCommand.emit();
   }
 

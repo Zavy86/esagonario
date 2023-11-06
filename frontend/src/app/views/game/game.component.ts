@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {LogsService} from "src/app/services/logs.service";
 import {BackendService} from "src/app/services/backend.service";
@@ -112,7 +112,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   letterSelected(letter:string):void {
     this.currentWord += letter;
-    console.log(letter);
+    //this.logsService.log(letter);
   }
 
   deleteLetter():void {
@@ -125,7 +125,7 @@ export class GameComponent implements OnInit, OnDestroy {
 		if(this.discoveredWords.includes(this.currentWord)){
 			this.setTemporaryClassAndClear('warning');
 		}else if(this.checkWord(this.currentWord)){
-			console.log('aggiunto: ',this.currentWord)
+			this.logsService.log('discovered: ',this.currentWord)
 			this.setTemporaryClassAndClear('success');
 			this.discoveredWords = [...this.discoveredWords,this.currentWord];
 			this.calculateProgress();

@@ -1,11 +1,10 @@
 <div class="columns" (click)="toggleShow()" *ngIf="ranking.length">
 	<div class="column width-sm-2" *ngFor="let record of ranking">
-		<div title="{{ record.nickname }}">
-			<span *ngIf="record.rank == 1">🥇</span>
-			<span *ngIf="record.rank == 2">🥈</span>
-			<span *ngIf="record.rank == 3">🥉</span>
-			<code *ngIf="record.rank > 3">[{{ record.rank }}]</code>
-			{{ record.nickname }}
-		</div>
+		<span title="{{ record.points }}" *ngIf="record.rank == 1">🥇</span>
+		<span title="{{ record.points }}" *ngIf="record.rank == 2">🥈</span>
+		<span title="{{ record.points }}" *ngIf="record.rank == 3">🥉</span>
+		<code title="{{ record.points }}" *ngIf="record.rank > 3">[{{ record.rank }}]</code>
+		<span title="{{ record.nickname }}">&nbsp;{{ record.nickname }}&nbsp;</span>
+		<code>{{ record.points }}</code>
 	</div><!-- /column -->
 </div><!-- /columns -->

@@ -24,7 +24,6 @@ export class SelectorComponent implements OnInit{
 		if(this.current!=today){
 			this.next = dayjs(uidDate).add(1,'day').format('YYYY-MM-DD');
 		}
-		console.log(this.previous,this.current,this.next);
 	}
 
 	changeGame(uid:string|undefined):void {

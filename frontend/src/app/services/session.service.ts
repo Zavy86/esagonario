@@ -12,7 +12,6 @@ export class SessionService {
 
   constructor(){
 		this.uuid = localStorage.getItem('uuid') ?? this.generateUUID();
-		console.log('uuid',this.uuid);
 		this.nickname = localStorage.getItem('nickname') ?? this.generateNickname();
 	}
 
