@@ -43,9 +43,15 @@ export class BackendService {
     );
   }
 
-
-
-
+  public storeRecord(game:string,storeRecordRequest:StoreRecordRequest):Observable<RecordResponse>{
+    return this.POST(
+      ENV.backend+'/'+game,
+      storeRecordRequest
+    ).pipe(
+      map((response) => new RecordResponse(response.Record)),
+      tap((response) => this.logsService.log('HTTP POST /'+game+' response',response))
+    );
+  }
 
   private GET(uri:string):Observable<any> {
     //this.logService.log('try to make http get...');
