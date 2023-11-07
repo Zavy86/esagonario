@@ -39,6 +39,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	rank:number = 0;
 	points:number = 0;
 	progress:number = 0;
+	suggestions:string[] = [];
 	discoveredWords:string[] = [];
 	currentWord:string = '';
 	inputClass:string = '';
@@ -67,6 +68,7 @@ export class GameComponent implements OnInit, OnDestroy {
       next:(gameResponse:GameResponse):void => {
         this.Game = gameResponse.Game;
         this.Records = gameResponse.Records;
+				this.suggestions.push(gameResponse.Game.letters[0]);
         this.isReady = true;
 				this.loadMyRecord();
 				if(game == 'latest'){ this.getGame(gameResponse.Game.date); }
@@ -84,6 +86,7 @@ export class GameComponent implements OnInit, OnDestroy {
 		if(record){
 			this.points = record.points;
 			this.discoveredWords = [...record.words];
+			this.setSuggestions();
 			this.calculateProgress();
 			this.calculateRank();
 		}
@@ -126,10 +129,8 @@ export class GameComponent implements OnInit, OnDestroy {
 			this.logsService.log('discovered: ',this.currentWord)
 			this.setTemporaryClassAndClear('success');
 			this.discoveredWords = [...this.discoveredWords,this.currentWord];
+			this.setSuggestions();
 			this.calculateProgress();
-			if(this.progress == 100){
-				alert('Game Completed!');
-			}
 			this.storeRecord();
 		}else{
 			this.setTemporaryClassAndClear('error');
@@ -140,8 +141,23 @@ export class GameComponent implements OnInit, OnDestroy {
 		return (this.Game?.words.includes(word)) ?? false;
 	}
 
+	private setSuggestions():void {
+		if(!this.Game){ return; }
+		this.suggestions = [...this.Game.letters[0]];
+		if(this.discoveredWords.length >= 3){
+			this.suggestions.push(this.Game.letters[1]);
+		}
+		if(this.discoveredWords.length >= 9){
+			this.suggestions.push(this.Game.letters[2]);
+		}
+	}
+
 	private calculateProgress():void {
-		this.progress = (this.discoveredWords.length / (this.Game?.words.length ?? 0) * 100);
+		if(!this.Game){
+			this.progress = 0;
+		}else {
+			this.progress = (this.points * 100 / this.Game.points);
+		}
 	}
 
 	private calculateRank():void {
