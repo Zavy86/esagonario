@@ -31,16 +31,16 @@ export class AppService {
   }
 
   private gameExists(date:string):boolean{
-    return fs.existsSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json');
+    return fs.existsSync('../datasets/'+date+'.json');
   }
 
   private recordsExists(date:string):boolean{
-    return fs.existsSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json');
+    return fs.existsSync('../datasets/'+date+'-records.json');
   }
 
   private loadGame(date:string):GameModel {
     try{
-      const encoded:string = fs.readFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json',{ encoding: 'utf8', flag: 'r' });
+      const encoded:string = fs.readFileSync('../datasets/'+date+'.json',{ encoding: 'utf8', flag: 'r' });
       const decoded:GameModel = JSON.parse(encoded);
       //console.log(decoded);
       const gameModel:GameModel = new GameModel();
@@ -58,7 +58,7 @@ export class AppService {
   private loadRecords(date:string):RecordModel[] {
     if(!this.recordsExists(date)){return [];}
     try{
-      const encoded:string = fs.readFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',{ encoding: 'utf8', flag: 'r' });
+      const encoded:string = fs.readFileSync('../datasets/'+date+'-records.json',{ encoding: 'utf8', flag: 'r' });
       const decoded:RecordModel[] = JSON.parse(encoded);
       //console.log(decoded);
       const records:RecordModel[] = [];
@@ -88,7 +88,7 @@ export class AppService {
     gameModel.letters = selectedLetters;
     gameModel.words = compatibleWords;
     try{
-      fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json',JSON.stringify(gameModel,null,2));
+      fs.writeFileSync('../datasets/'+date+'.json',JSON.stringify(gameModel,null,2));
       this.logger.log('Game created: ' + date);
       return gameModel;
     }catch(err){
@@ -141,7 +141,7 @@ export class AppService {
     if(newRecord){records.push(recordModel);}
     records.sort(this.sortByPointAndTimestamp);
     try{
-      fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',JSON.stringify(records,null,2));
+      fs.writeFileSync('../datasets/'+date+'-records.json',JSON.stringify(records,null,2));
       this.logger.log('Record saved: ' + recordModel.uuid);
       return new RecordResponse(records);
     }catch(err){
