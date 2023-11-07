@@ -1,19 +1,17 @@
 import {ENV} from "../../environments/environment";
-import {catchError, map, Observable, tap, throwError} from "rxjs";
-import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {LogsService} from "../services/logs.service";
-import {AlertsService, AlertTypologies} from "../services/alerts.service";
-import {GameResponse, RecordResponse} from "@shared/responses";
-import {StoreRecordRequest} from "@shared/requests";
+import {Injectable} from '@angular/core';
+import {catchError, map, Observable, tap, throwError} from "rxjs";
+import {AlertsService, AlertTypologies, LogsService} from "src/app/services";
+import {GameResponse} from "src/app/responses";
+import {RecordResponse} from "src/app/responses";
+import {RecordRequest} from "src/app/requests";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class BackendService {
-
-	private uuid:string;
 
   private options = {
     'headers': {
@@ -27,11 +25,7 @@ export class BackendService {
     protected httpClient:HttpClient,
     protected logsService:LogsService,
     protected alertsService:AlertsService
-  ){
-		this.uuid = localStorage.getItem('uuid') ?? (Math.random().toString(36).substring(2,11) + Math.random().toString(36).substring(2,11));
-		localStorage.setItem('uuid',this.uuid);
-		logsService.log('uuid',this.uuid);
-	}
+  ){}
 
 
   public getGame(game:string):Observable<GameResponse>{
@@ -43,7 +37,7 @@ export class BackendService {
     );
   }
 
-  public storeRecord(game:string,storeRecordRequest:StoreRecordRequest):Observable<RecordResponse>{
+  public storeRecord(game:string,storeRecordRequest:RecordRequest):Observable<RecordResponse>{
     return this.POST(
       ENV.backend+'/'+game,
       storeRecordRequest
@@ -54,7 +48,7 @@ export class BackendService {
   }
 
   private GET(uri:string):Observable<any> {
-    //this.logService.log('try to make http get...');
+    this.logsService.log('try to make http get...');
     return this.httpClient.get<any>(uri,this.options).pipe(
       catchError(error => this.processError(error)),
       map(response => this.processResponse(response))
@@ -62,7 +56,7 @@ export class BackendService {
   }
 
   private POST(uri:string,request:any|null=null):Observable<any> {
-    //this.logService.log('try to make http post...');
+    this.logsService.log('try to make http post...');
     return this.httpClient.post<any>(uri,request,this.options).pipe(
       catchError(error => this.processError(error)),
       map(response => this.processResponse(response))
@@ -70,7 +64,7 @@ export class BackendService {
   }
 
   private PATCH(uri:string,request:any):Observable<any> {
-    //this.logsService.log('try to make http patch...');
+    this.logsService.log('try to make http patch...');
     return this.httpClient.patch<any>(uri,request,this.options).pipe(
       catchError(error => this.processError(error)),
       map(response => this.processResponse(response))
@@ -78,7 +72,7 @@ export class BackendService {
   }
 
   private PUT(uri:string,request:any):Observable<any> {
-    //this.logsService.log('try to make http put...');
+    this.logsService.log('try to make http put...');
     return this.httpClient.put<any>(uri,request,this.options).pipe(
       catchError(error => this.processError(error)),
       map(response => this.processResponse(response))
@@ -86,7 +80,7 @@ export class BackendService {
   }
 
   private DELETE(uri:string):Observable<any> {
-    //this.logService.log('try to make http delete...');
+    this.logsService.log('try to make http delete...');
     return this.httpClient.delete<any>(uri,this.options).pipe(
       catchError(error => this.processError(error)),
       map(response => this.processResponse(response))
@@ -100,25 +94,15 @@ export class BackendService {
     return throwError(err);
   }
 
-  private processResponse(res:any,responseObject:string=''):any {
-    this.logsService.log('http raw response:',res);
+  private processResponse(res:any):any {
+    this.logsService.log('http executed response:', res);
     try{
       let response = res;
-      /*let response=new Response(res);
-      if(response.error){
-        this.logsService.error('error in response',response.errors)
-        if(ENV.debug){response.errors.forEach(error=>this.alertsService.add(error.description+' : '+error.information,AlertTypologies.Danger,'Error: ' + error.code));}
-        return new Observable<false>;
-      }if(responseObject!='' && responseObject!=response.object){
-        this.logsService.error('response.responseObject check error not '+responseObject);
-        if(ENV.debug){this.alertsService.add('response.responseObject check error not '+responseObject)}
-        return new Observable<false>;
-      }else{*/
-        this.logsService.log("http response successfully parsed");
-        return response;
-      //}
-    }catch(err){
-      //this.logService.warn(err);
+      //let response = new Response(res);
+			//this.logsService.log("http response parsed", response);
+			return response;
+		}catch(err){
+      this.logsService.warn(err);
       return new Observable<false>;
     }
   }

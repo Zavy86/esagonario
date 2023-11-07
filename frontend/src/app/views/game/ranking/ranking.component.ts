@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {RecordModel} from "@shared/models";
+import {RecordType} from "@shared/types";
 
 @Component({
   selector: 'app-ranking',
@@ -8,7 +8,7 @@ import {RecordModel} from "@shared/models";
 })
 export class RankingComponent implements OnChanges {
 
-	@Input() allRecords:RecordModel[] = [];
+	@Input() allRecords:RecordType[] = [];
 
 	showAll:boolean = false;
 	ranking:{rank:number,points:number,nickname:string}[] = [];

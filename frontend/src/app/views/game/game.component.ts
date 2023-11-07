@@ -1,15 +1,13 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {LogsService} from "src/app/services/logs.service";
-import {BackendService} from "src/app/services/backend.service";
-import {AlertsService, AlertTypologies} from "src/app/services/alerts.service";
-import {Subscription} from "rxjs";
-import {GameModel, RecordModel} from "@shared/models";
-import {InputComponent} from "src/app/views/game/input/input.component";
-import {StoreRecordRequest} from "@shared/requests";
 import {ENV} from "src/environments/environment";
-import {SessionService} from "src/app/services/session.service";
-import {GameResponse, RecordResponse} from "@shared/responses";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {GameType, RecordType} from "@shared/types";
+import {Subscription} from "rxjs";
+import {AlertsService, AlertTypologies, BackendService, LogsService, SessionService} from "src/app/services";
+import {InputComponent} from "src/app/views/game/input/input.component";
+import {GameResponse} from "src/app/responses";
+import {RecordRequest} from "src/app/requests";
+import {RecordResponse} from "src/app/responses";
 
 @Component({
   selector: 'app-game',
@@ -35,8 +33,8 @@ export class GameComponent implements OnInit, OnDestroy {
   isReady:boolean = false;
 
   uid:string = 'latest';
-  Game:GameModel|undefined;
-  Records:RecordModel[] = [];
+  Game:GameType|undefined;
+  Records:RecordType[] = [];
 
 	rank:number = 0;
 	points:number = 0;
@@ -82,7 +80,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
 	private loadMyRecord():void {
-		let record:RecordModel|undefined = this.Records.find((record:RecordModel) => record.uuid == this.sessionService.uuid);
+		let record:RecordType|undefined = this.Records.find((record:RecordType) => record.uuid == this.sessionService.uuid);
 		if(record){
 			this.points = record.points;
 			this.discoveredWords = [...record.words];
@@ -93,9 +91,9 @@ export class GameComponent implements OnInit, OnDestroy {
 
 	storeRecord():void {
 		const date:string = this.Game?.date as string;
-		const record:StoreRecordRequest = new StoreRecordRequest();
+		const record:RecordRequest = new RecordRequest();
 		record.uuid = this.sessionService.uuid;
-		record.nickname = localStorage.getItem('nickname') as string;
+		record.nickname = this.sessionService.nickname;
 		record.words = [...this.discoveredWords];
 		this._subscription = this.backendService.storeRecord(date, record).subscribe({
 			next:(recordResponse:RecordResponse):void => {
@@ -147,7 +145,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	}
 
 	private calculateRank():void {
-		this.rank = (this.Records.findIndex((record:RecordModel):boolean => record.uuid == this.sessionService.uuid) + 1);
+		this.rank = (this.Records.findIndex((record:RecordType):boolean => record.uuid == this.sessionService.uuid) + 1);
 	}
 
 	private setTemporaryClassAndClear(inputClass:string):void{
