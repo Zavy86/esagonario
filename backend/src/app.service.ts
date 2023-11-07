@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as letters from "src/assets/letters.json";
 import * as words from "src/assets/words.json";
 import {BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException} from '@nestjs/common';
-import {GameModel, RecordModel} from "@shared/models/";
-import {RecordResponse, GameResponse} from "@shared/responses";
-import {StoreRecordRequest} from "@shared/requests";
+import {GameModel, RecordModel} from "./models/";
+import {RecordResponse, GameResponse} from "./responses";
+import {RecordRequest} from "./requests";
 
 @Injectable()
 export class AppService {
@@ -28,7 +28,6 @@ export class AppService {
     const response:GameResponse = new GameResponse(Game,Records);
     //console.log(response)
     return response;
-
   }
 
   private gameExists(date:string):boolean{
@@ -48,6 +47,7 @@ export class AppService {
       gameModel.date = decoded.date;
       gameModel.letters = decoded.letters;
       gameModel.words = decoded.words;
+      this.logger.log('Game loaded: ' + date);
       return gameModel;
     }catch(err){
       this.logger.error(err);
@@ -89,6 +89,7 @@ export class AppService {
     gameModel.words = compatibleWords;
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'.json',JSON.stringify(gameModel,null,2));
+      this.logger.log('Game created: ' + date);
       return gameModel;
     }catch(err){
       this.logger.error(err);
@@ -121,7 +122,7 @@ export class AppService {
     return true;
   }
 
-  public storeRecord(date:string, store:StoreRecordRequest):RecordResponse {
+  public storeRecord(date:string, store:RecordRequest):RecordResponse {
     if(!this.gameExists(date)){throw new NotFoundException('no game found for '+date);}
     const gameModel:GameModel = this.loadGame(date);
     const records:RecordModel[] = this.loadRecords(date);
@@ -141,7 +142,7 @@ export class AppService {
     records.sort(this.sortByPointAndTimestamp);
     try{
       fs.writeFileSync('C:/Users/mzavatta/Repositories/esagonario/datasets/'+date+'-records.json',JSON.stringify(records,null,2));
-      console.log('records saved!');
+      this.logger.log('Record saved: ' + recordModel.uuid);
       return new RecordResponse(records);
     }catch(err){
       this.logger.error(err);

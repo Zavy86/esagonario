@@ -1,6 +1,7 @@
+import {RecordRequestType} from "@shared/types";
 import {IsString, IsNotEmpty, IsArray, ArrayMinSize} from "class-validator";
 
-export class StoreRecordRequest {
+export class RecordRequest implements RecordRequestType {
 
 	@IsString()
 	@IsNotEmpty()

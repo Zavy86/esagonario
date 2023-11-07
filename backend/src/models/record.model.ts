@@ -1,4 +1,6 @@
-export class RecordModel {
+import {RecordType} from "@shared/types";
+
+export class RecordModel implements RecordType{
 	uuid:string = '';
 	nickname:string = '';
 	words:string[] = [];

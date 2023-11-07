@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {AppService} from './app.service';
-import {GameResponse, RecordResponse} from "@shared/responses";
-import {StoreRecordRequest} from "@shared/requests";
+import {GameResponse, RecordResponse} from "./responses";
+import {RecordRequest} from "./requests";
 
 @Controller()
 export class AppController {
@@ -30,7 +30,7 @@ export class AppController {
   @Post(':date')
   storeResult(
     @Param('date') date:string,
-    @Body() store:StoreRecordRequest,
+    @Body() store:RecordRequest,
   ):RecordResponse {
     return this.appService.storeRecord(date,store);
   }
