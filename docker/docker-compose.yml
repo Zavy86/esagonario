@@ -1,0 +1,36 @@
+version: "3"
+volumes:
+  esagonario-datasets:
+    external: true
+networks:
+  stack:
+    driver: bridge
+#  reverse-proxy:
+#    external: true
+services:
+  backend:
+    build:
+      context: ./..
+      dockerfile: docker/backend.dockerfile
+    container_name: esagonario-backend
+    restart: unless-stopped
+    volumes:
+      - esagonario-datasets:/datasets
+    networks:
+      - stack
+    ports:
+      - 3000:3000
+  frontend:
+    build:
+      context: ./..
+      dockerfile: docker/frontend.dockerfile
+    container_name: esagonario-frontend
+    hostname: esagonario
+    restart: unless-stopped
+    networks:
+      - stack
+      #- reverse-proxy
+    depends_on:
+      - backend
+    ports:
+      - 80:80
