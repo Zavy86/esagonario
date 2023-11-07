@@ -7,6 +7,7 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 })
 export class WordsComponent implements OnInit, OnChanges {
 
+	@Input() suggestions:string[] = [];
 	@Input() availableWords:string[] = [];
 	@Input() discoveredWords:string[] = [];
 
@@ -26,7 +27,9 @@ export class WordsComponent implements OnInit, OnChanges {
 			if(this.discoveredWords.includes(word)){
 				this.words.push(word);
 			}else{
-				this.words.push('■'.repeat(word.length));
+				let hidden:string = '';
+				[...word].forEach((letter:string):void => { hidden += (this.suggestions.includes(letter) ? letter : '■'); });
+				this.words.push(hidden);
 			}
 		});
 	}
