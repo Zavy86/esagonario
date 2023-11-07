@@ -3,10 +3,8 @@ volumes:
   esagonario-datasets:
     external: true
 networks:
-  stack:
-    driver: bridge
-#  reverse-proxy:
-#    external: true
+  reverse-proxy:
+    external: true
 services:
   backend:
     build:
@@ -17,9 +15,7 @@ services:
     volumes:
       - esagonario-datasets:/datasets
     networks:
-      - stack
-    ports:
-      - 3000:3000
+      - reverse-proxy
   frontend:
     build:
       context: ./..
@@ -28,9 +24,6 @@ services:
     hostname: esagonario
     restart: unless-stopped
     networks:
-      - stack
-      #- reverse-proxy
+      - reverse-proxy
     depends_on:
       - backend
-    ports:
-      - 80:80
