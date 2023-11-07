@@ -74,7 +74,7 @@ export class GameComponent implements OnInit, OnDestroy {
       error:(error):void => {
         this.logsService.error('error retrieving game '+this.uid, error);
         this.alertsService.add('Error retrieving game.', AlertTypologies.Danger);
-				window.location.href = '/';
+				if(game != 'latest'){ window.location.href = '/'; }
       }
     });
   }
