@@ -45,6 +45,7 @@ export class AppService {
       //console.log(decoded);
       const gameModel:GameModel = new GameModel();
       gameModel.date = decoded.date;
+      gameModel.points = decoded.points;
       gameModel.letters = decoded.letters;
       gameModel.words = decoded.words;
       this.logger.log('Game loaded: ' + date);
@@ -82,11 +83,15 @@ export class AppService {
     do{
       selectedLetters = this.selectLetters();
       compatibleWords = this.checkWords(selectedLetters);
-    }while(compatibleWords.length<18 || compatibleWords.length>27);
+    }while(compatibleWords.length<21);
+    while(compatibleWords.length>21){
+      compatibleWords.splice(Math.floor(Math.random() * compatibleWords.length),1);
+    }
     const gameModel:GameModel = new GameModel();
     gameModel.date = date;
     gameModel.letters = selectedLetters;
     gameModel.words = compatibleWords;
+    gameModel.points = this.calculatePoints(compatibleWords);
     try{
       fs.writeFileSync('../datasets/'+date+'.json',JSON.stringify(gameModel,null,2));
       this.logger.log('Game created: ' + date);
