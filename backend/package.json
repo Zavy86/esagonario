@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "esagonario-backend",
   "description": "a simple word game based on the nyt's spelling bee (nestjs backend)",
   "author": "manuel zavatta <manuel.zavatta@gmail.com>",
