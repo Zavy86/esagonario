@@ -13,6 +13,7 @@ export class ControlsComponent {
 	@Output() letterSelected:EventEmitter<string> = new EventEmitter();
 
   @Input() letters:string[] = [];
+  @Input() suggestions:string[] = [];
 
 	@HostListener('document:keydown', ['$event'])
 	handleKeyboardEvent(event: KeyboardEvent):void {
