@@ -9,6 +9,7 @@
 			<div #help_01="tooltipStr" tooltipStr="Per giocare alle partite precedenti usa questa freccia" placement="bottom-left" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 			<app-input
 				#inputComponent
+				*ngIf="!completed"
 				[word]="currentWord"
 				[class]="inputClass"
 			></app-input>
@@ -52,6 +53,8 @@
 				<p>uid: {{ uid }}</p>
 				<p>rank: {{ rank }}</p>
 				<p>game: {{ Game | json }}</p>
+				<p>discovered: {{ discoveredWords | json }}</p>
+				<p>completed: {{ completed }}</p>
 				<p>records: {{ Records | json }}</p>
 			</code>
 		</div><!-- /column -->

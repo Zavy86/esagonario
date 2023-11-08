@@ -53,6 +53,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	discoveredWords:string[] = [];
 	currentWord:string = '';
 	inputClass:string = '';
+	completed:boolean = false;
 
 	currentHelpTooltip:number = 0;
 	helpTooltips:TooltipStrDirective[] = [];
@@ -81,7 +82,7 @@ export class GameComponent implements OnInit, OnDestroy {
       next:(gameResponse:GameResponse):void => {
         this.Game = gameResponse.Game;
         this.Records = gameResponse.Records;
-				this.suggestions.push(gameResponse.Game.letters[0]);
+				this.suggestions = [...gameResponse.Game.letters[0]];
         this.isReady = true;
 				this.loadMyRecord();
 				if(game == 'latest'){
@@ -145,6 +146,7 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   submitWord():void {
+		if(this.completed){ return; }
 		if(this.discoveredWords.includes(this.currentWord)){
 			this.setTemporaryClassAndClear('warning');
 			this.playSound('warning');
@@ -185,11 +187,10 @@ export class GameComponent implements OnInit, OnDestroy {
 	}
 
 	private calculateProgress():void {
-		if(!this.Game){
-			this.progress = 0;
-		}else {
-			this.progress = (this.points * 100 / this.Game.points);
-		}
+		this.progress = 0;
+		if(!this.Game) { return; }
+		this.progress = ( this.points * 100 / this.Game.points );
+		this.completed = ( this.discoveredWords.length == this.Game.words.length );
 	}
 
 	private calculateRank():void {
