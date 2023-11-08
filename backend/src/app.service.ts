@@ -156,11 +156,11 @@ export class AppService {
   }
 
   private sortByPointAndTimestamp(a:RecordModel,b:RecordModel):number{
-    if(a.points > b.points){return -1;}
-    else if(b.points > a.points){return 1;}
-    else if(a.timestamp > b.timestamp){return -1;}
-    else if(b.timestamp > a.timestamp){return -1;}
-    else{return 0;}
+    if(a.points > b.points){ return -1; }
+    else if(b.points > a.points){ return 1; }
+    else if(a.timestamp < b.timestamp){ return -1; }
+    else if(b.timestamp > a.timestamp){ return -1; }
+    else{ return 0; }
   }
 
   private checkDiscoveredWords(discoveredWords:string[],compatibleWords:string[]):string[] {
