@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import * as dayjs from "dayjs";
 
 @Component({
@@ -7,6 +7,8 @@ import * as dayjs from "dayjs";
   styleUrls: ['./selector.component.scss']
 })
 export class SelectorComponent implements OnInit{
+
+	@Output() showHelp:EventEmitter<null> = new EventEmitter();
 
 	@Input() uid:string = 'latest';
 
@@ -28,6 +30,10 @@ export class SelectorComponent implements OnInit{
 
 	changeGame(uid:string|undefined):void {
 		if(uid){ window.location.href = '/Game/' + uid; }
+	}
+
+	clickHelp():void {
+		this.showHelp.emit();
 	}
 
 }

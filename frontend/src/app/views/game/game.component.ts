@@ -8,6 +8,7 @@ import {InputComponent} from "src/app/views/game/input/input.component";
 import {GameResponse} from "src/app/responses";
 import {RecordRequest} from "src/app/requests";
 import {RecordResponse} from "src/app/responses";
+import {TooltipStrDirective} from "ngx-tooltip-directives";
 
 @Component({
   selector: 'app-game',
@@ -16,7 +17,16 @@ import {RecordResponse} from "src/app/responses";
 })
 export class GameComponent implements OnInit, OnDestroy {
 
-	@ViewChild(InputComponent) inputComponent:InputComponent | undefined;
+	@ViewChild('inputComponent') inputComponent!:InputComponent;
+
+	@ViewChild('help_00') help_00!:TooltipStrDirective;
+	@ViewChild('help_01') help_01!:TooltipStrDirective;
+	@ViewChild('help_02') help_02!:TooltipStrDirective;
+	@ViewChild('help_03') help_03!:TooltipStrDirective;
+	@ViewChild('help_04') help_04!:TooltipStrDirective;
+	@ViewChild('help_05') help_05!:TooltipStrDirective;
+	@ViewChild('help_06') help_06!:TooltipStrDirective;
+	@ViewChild('help_07') help_07!:TooltipStrDirective;
 
   constructor(
     private router:Router,
@@ -44,7 +54,10 @@ export class GameComponent implements OnInit, OnDestroy {
 	currentWord:string = '';
 	inputClass:string = '';
 
-  ngOnInit():void {
+	currentHelpTooltip:number = 0;
+	helpTooltips:TooltipStrDirective[] = [];
+
+	ngOnInit():void {
 		this.debug = ENV.debug;
     this.logsService.log('game component init');
     this.uid = this.route.snapshot.paramMap.get('uid') as string;
@@ -71,7 +84,12 @@ export class GameComponent implements OnInit, OnDestroy {
 				this.suggestions.push(gameResponse.Game.letters[0]);
         this.isReady = true;
 				this.loadMyRecord();
-				if(game == 'latest'){ this.getGame(gameResponse.Game.date); }
+				if(game == 'latest'){
+					this.getGame(gameResponse.Game.date);
+					if(this.sessionService.showHelpTooltips()) {
+						this.showHelpTooltips();
+					}
+				}
 				setInterval(():void => {
 					this.logsService.info('refresh game data');
 					this.getGame(gameResponse.Game.date);
@@ -195,6 +213,41 @@ export class GameComponent implements OnInit, OnDestroy {
 
 	changeNickname(nickname:string):void {
 		this.sessionService.changeNickname(nickname);
+	}
+
+	tooltipEvent(event:{type:string,position:DOMRect}):void {
+		if(event.type == 'hide'){this.showHelpTooltip();}
+	}
+
+	showHelpTooltips():void{
+		this.currentHelpTooltip = 0;
+		this.showHelpTooltip();
+	}
+
+	private showHelpTooltip():void{
+		if(!this.helpTooltips.length){
+			this.loadHelpTooltips();
+		}
+		if(this.currentHelpTooltip in this.helpTooltips) {
+			this.helpTooltips[this.currentHelpTooltip].show();
+			this.currentHelpTooltip++;
+		} else {
+			let response:boolean = confirm('Vuoi mostrare questi suggerimenti al prossimo accesso?');
+			this.sessionService.setHelpTooltips(response);
+		}
+	}
+
+	private loadHelpTooltips():void{
+		this.helpTooltips.push(
+			this.help_00,
+			this.help_01,
+			this.help_02,
+			this.help_03,
+			this.help_04,
+			this.help_05,
+			this.help_06,
+			this.help_07
+		);
 	}
 
 }

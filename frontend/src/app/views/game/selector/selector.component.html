@@ -7,6 +7,7 @@
 	</div><!-- /column -->
 	<div class="column width-sm-1 next">
 		<a *ngIf="next" (click)="changeGame(next)">&rArr;</a>
+		<a *ngIf="!next" (click)="clickHelp()">?</a>
 	</div><!-- /column -->
 </div><!-- /columns -->
 

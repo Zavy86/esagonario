@@ -21,6 +21,14 @@ export class SessionService {
 		this.nickname = nickname;
 	}
 
+	showHelpTooltips():boolean {
+		return ((localStorage.getItem('help-tooltips') ?? 'yes') == 'yes');
+	}
+
+	setHelpTooltips(value:boolean):void {
+		localStorage.setItem('help-tooltips',( value ? 'yes' : 'no' ));
+	}
+
 	private generateUUID():string {
 		const uuid:string = (Math.random().toString(36).substring(2,11) + Math.random().toString(36).substring(2,11));
 		localStorage.setItem('uuid',uuid);

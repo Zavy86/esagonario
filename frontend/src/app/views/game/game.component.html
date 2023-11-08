@@ -3,11 +3,17 @@
 		<div class="column width-2">
 			<app-selector
 				[uid]="uid"
+				(showHelp)="showHelpTooltips();"
 			></app-selector>
+			<div #help_00="tooltipStr" tooltipStr="Ciao, qui puoi vedere la data della partita in corso" placement="bottom" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
+			<div #help_01="tooltipStr" tooltipStr="Per giocare alle partite precedenti usa questa freccia" placement="bottom-left" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 			<app-input
+				#inputComponent
 				[word]="currentWord"
 				[class]="inputClass"
 			></app-input>
+			<div #help_02="tooltipStr" tooltipStr="Queste sono le lettere a disposizione per questa partita" placement="top" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
+			<div #help_07="tooltipStr" tooltipStr="A mano a mano che scoprirai nuove parole riceverai nuovi aiuti, buon divertimento!" placement="top" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 			<app-controls
 				[letters]="Game?.letters ?? []"
 				[suggestions]="suggestions"
@@ -18,10 +24,12 @@
 		</div><!-- /column -->
 		<div class="column width-4">
 			<div class="flex">
+				<div #help_03="tooltipStr" tooltipStr="Questo è il tuo username, permi per cambiarlo" placement="bottom-left" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 				<app-nickname
 					[rank]="rank"
 					(nicknameChanged)="storeRecord()"
 				></app-nickname>
+				<div #help_04="tooltipStr" tooltipStr="Qui vedi la percentuale di completamento della partita ed il tuo punteggio attuale" placement="bottom-left" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 				<app-progress
 					[value]="progress + '%'"
 				></app-progress>
@@ -32,6 +40,8 @@
 			<app-ranking
 				[allRecords]="Records"
 			></app-ranking>
+			<div #help_05="tooltipStr" tooltipStr="Questa è la classifica della partita in ordine di punteggio cronologico (premi per ingrandire)" placement="bottom-left" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
+			<div #help_06="tooltipStr" tooltipStr="Queste sono le parole da trovare in questa partita, le lettere gialle vengono mostrate come aiuti" placement="top" tooltipClass="help" borderColor="black" trigger="click" (events)="tooltipEvent($event)"></div>
 			<app-words
 				[suggestions]="suggestions"
 				[availableWords]="Game?.words ?? []"
