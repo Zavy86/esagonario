@@ -1,5 +1,5 @@
 <div class="columns">
-	<div class="column width-sm-2" *ngFor="let word of words">
-		<span title="({{ word.length }}) {{ word }}">{{ word }}</span>
+	<div class="column width-2 width-sm-3" *ngFor="let word of words">
+		<span title="({{ word.length }}) {{ word }}" [ngClass]="{'discovered':discoveredWords.includes(word)}">{{ word }}</span>
 	</div><!-- /column -->
 </div><!-- /columns -->
