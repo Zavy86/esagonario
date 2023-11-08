@@ -72,6 +72,10 @@ export class GameComponent implements OnInit, OnDestroy {
         this.isReady = true;
 				this.loadMyRecord();
 				if(game == 'latest'){ this.getGame(gameResponse.Game.date); }
+				setInterval(():void => {
+					this.logsService.info('refresh game data');
+					this.getGame(gameResponse.Game.date);
+				},27*1000);
       },
       error:(error):void => {
         this.logsService.error('error retrieving game '+this.uid, error);
