@@ -83,8 +83,8 @@ export class AppService {
     do{
       selectedLetters = this.selectLetters();
       compatibleWords = this.checkWords(selectedLetters);
-    }while(compatibleWords.length<21);
-    while(compatibleWords.length>21){
+    }while(compatibleWords.length<20);
+    while(compatibleWords.length>20){
       compatibleWords.splice(Math.floor(Math.random() * compatibleWords.length),1);
     }
     const gameModel:GameModel = new GameModel();
