@@ -125,6 +125,7 @@ export class GameComponent implements OnInit, OnDestroy {
   submitWord():void {
 		if(this.discoveredWords.includes(this.currentWord)){
 			this.setTemporaryClassAndClear('warning');
+			this.playSound('warning');
 		}else if(this.checkWord(this.currentWord)){
 			this.logsService.log('discovered: ',this.currentWord)
 			this.setTemporaryClassAndClear('success');
@@ -132,8 +133,14 @@ export class GameComponent implements OnInit, OnDestroy {
 			this.setSuggestions();
 			this.calculateProgress();
 			this.storeRecord();
+			if(this.discoveredWords.length == this.Game?.words.length){
+				this.playSound('finish');
+			}else{
+				this.playSound('success');
+			}
 		}else{
 			this.setTemporaryClassAndClear('error');
+			this.playSound('error');
 		}
   }
 
@@ -145,10 +152,13 @@ export class GameComponent implements OnInit, OnDestroy {
 		if(!this.Game){ return; }
 		this.suggestions = [...this.Game.letters[0]];
 		if(this.discoveredWords.length >= 3){
-			this.suggestions.push(this.Game.letters[1]);
+			this.suggestions.push(this.Game.letters[6]);
 		}
 		if(this.discoveredWords.length >= 9){
 			this.suggestions.push(this.Game.letters[2]);
+		}
+		if(this.discoveredWords.length >= 18){
+			this.suggestions.push(this.Game.letters[4]);
 		}
 	}
 
@@ -170,6 +180,13 @@ export class GameComponent implements OnInit, OnDestroy {
 			this.currentWord = '';
 			this.inputClass = '';
 		},900);
+	}
+
+	private playSound(sound:string):void {
+		let audio:HTMLAudioElement = new Audio();
+		audio.src = 'assets/' + sound + '.flac';
+		audio.load();
+		audio.play();
 	}
 
 	changeNickname(nickname:string):void {

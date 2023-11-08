@@ -10,6 +10,7 @@
 			></app-input>
 			<app-controls
 				[letters]="Game?.letters ?? []"
+				[suggestions]="suggestions"
 				(letterSelected)="letterSelected($event)"
 				(deleteCommand)="deleteLetter()"
 				(enterCommand)="submitWord()"
